@@ -5,6 +5,7 @@ using Northwind.Application.Customers.Commands.DeleteCustomer;
 using Northwind.Application.Customers.Commands.UpdateCustomer;
 using Northwind.Application.Customers.Queries.GetCustomerDetail;
 using Northwind.Application.Customers.Queries.GetCustomersList;
+using Northwind.Domain.Entities;
 using System.Threading.Tasks;
 
 namespace Northwind.WebUI.Controllers
@@ -29,9 +30,9 @@ namespace Northwind.WebUI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> Create([FromBody]CreateCustomerCommand command)
+        public async Task<IActionResult> Create([FromBody] Customer customer)
         {
-            await Mediator.Send(command);
+            await Mediator.Send(new CreateCustomerCommand(customer));
 
             return NoContent();
         }
