@@ -32,6 +32,7 @@ namespace Northwind.WebUI.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Create([FromBody] Customer customer)
         {
+            //DON'T Do this, do not want crosscutting entity, just do DTO instead!!!
             await Mediator.Send(new CreateCustomerCommand(customer));
 
             return NoContent();
