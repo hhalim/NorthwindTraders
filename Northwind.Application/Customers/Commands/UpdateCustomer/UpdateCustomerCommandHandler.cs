@@ -20,22 +20,22 @@ namespace Northwind.Application.Customers.Commands.UpdateCustomer
         public async Task<Unit> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
         {
             var entity = await _context.Customers
-                .SingleOrDefaultAsync(c => c.CustomerId == request.Id, cancellationToken);
+                .SingleOrDefaultAsync(c => c.CustomerId == request.Customer.CustomerId, cancellationToken);
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(Customer), request.Id);
+                throw new NotFoundException(nameof(Customer), request.Customer.CustomerId);
             }
 
-            entity.Address = request.Address;
-            entity.City = request.City;
-            entity.CompanyName = request.CompanyName;
-            entity.ContactName = request.ContactName;
-            entity.ContactTitle = request.ContactTitle;
-            entity.Country = request.Country;
-            entity.Fax = request.Fax;
-            entity.Phone = request.Phone;
-            entity.PostalCode = request.PostalCode;
+            entity.Address = request.Customer.Address;
+            entity.City = request.Customer.City;
+            entity.CompanyName = request.Customer.CompanyName;
+            entity.ContactName = request.Customer.ContactName;
+            entity.ContactTitle = request.Customer.ContactTitle;
+            entity.Country = request.Customer.Country;
+            entity.Fax = request.Customer.Fax;
+            entity.Phone = request.Customer.Phone;
+            entity.PostalCode = request.Customer.PostalCode;
 
             _context.Customers.Update(entity);
 

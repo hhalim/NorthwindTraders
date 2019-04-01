@@ -7,31 +7,31 @@ namespace Northwind.Application.Customers.Commands.UpdateCustomer
     {
         public UpdateCustomerCommandValidator()
         {
-            RuleFor(x => x.Id).MaximumLength(5).NotEmpty();
-            RuleFor(x => x.Address).MaximumLength(60);
-            RuleFor(x => x.City).MaximumLength(15);
-            RuleFor(x => x.CompanyName).MaximumLength(40).NotEmpty();
-            RuleFor(x => x.ContactName).MaximumLength(30);
-            RuleFor(x => x.ContactTitle).MaximumLength(30);
-            RuleFor(x => x.Country).MaximumLength(15);
-            RuleFor(x => x.Fax).MaximumLength(24).NotEmpty();
-            RuleFor(x => x.Phone).MaximumLength(24).NotEmpty();
-            RuleFor(x => x.PostalCode).MaximumLength(10);
-            RuleFor(x => x.Region).MaximumLength(15);
+            RuleFor(x => x.Customer.CustomerId).MaximumLength(5).NotEmpty();
+            RuleFor(x => x.Customer.Address).MaximumLength(60);
+            RuleFor(x => x.Customer.City).MaximumLength(15);
+            RuleFor(x => x.Customer.CompanyName).MaximumLength(40).NotEmpty();
+            RuleFor(x => x.Customer.ContactName).MaximumLength(30);
+            RuleFor(x => x.Customer.ContactTitle).MaximumLength(30);
+            RuleFor(x => x.Customer.Country).MaximumLength(15);
+            RuleFor(x => x.Customer.Fax).MaximumLength(24).NotEmpty();
+            RuleFor(x => x.Customer.Phone).MaximumLength(24).NotEmpty();
+            RuleFor(x => x.Customer.PostalCode).MaximumLength(10);
+            RuleFor(x => x.Customer.Region).MaximumLength(15);
 
-            RuleFor(c => c.PostalCode).Matches(@"^\d{4}$")
-                .When(c => c.Country == "Australia")
+            RuleFor(c => c.Customer.PostalCode).Matches(@"^\d{4}$")
+                .When(c => c.Customer.Country == "Australia")
                 .WithMessage("Australian Postcodes have 4 digits");
 
-            RuleFor(c => c.Phone)
+            RuleFor(c => c.Customer.Phone)
                 .Must(HaveQueenslandLandLine)
-                .When(c => c.Country == "Australia" && c.PostalCode.StartsWith("4"))
+                .When(c => c.Customer.Country == "Australia" && c.Customer.PostalCode.StartsWith("4"))
                 .WithMessage("Customers in QLD require at least one QLD landline.");
         }
 
         private static bool HaveQueenslandLandLine(UpdateCustomerCommand model, string phoneValue, PropertyValidatorContext ctx)
         {
-            return model.Phone.StartsWith("07") || model.Fax.StartsWith("07");
+            return model.Customer.Phone.StartsWith("07") || model.Customer.Fax.StartsWith("07");
         }
     }
 }
